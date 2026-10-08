@@ -1,25 +1,28 @@
 
 pipeline {
     agent any
+
     tools {
         maven 'Maven3'
     }
+
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Jeevanantham74/maven-test-demo.git'
-            }
-        }
-        stage('Compile') {
-            steps {
-                bat 'mvn clean compile'
+                    url: 'https://github.com/Jeevanantham74/maven-package-demo.git'
             }
         }
 
-        stage('Test') {
+        stage('Package') {
             steps {
-                bat 'mvn test'
+                bat 'mvn clean package'
+            }
+        }
+
+        stage('Run JAR') {
+            steps {
+                bat 'java -cp target\\maven-package-demo-1.0.jar com.example.App'
             }
         }
     }
